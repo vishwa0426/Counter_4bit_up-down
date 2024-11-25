@@ -57,31 +57,74 @@ Functional Simulation:
 ### Verilog code for 4-Bit Up-Down Counter:
 
 */Program  for  4-Bit Up-Down Counter
+`timescale 1ns / 1 ns
+module counter(clk,m,rst,count);
+input clk,m,rst;
+output reg [3:0] count;
+always@(posedge clk or negedge rst)
+begin
+if (!rst)
+count=0;
+else if(m)
+count=count+1;
+else
+count=count-1;
+end
+endmodule
 
 	Use Save option or Ctrl+S to save the code or click on the save option from the top most right corner and close the text file.
 
 ## Creating Test bench:
 
 	Similarly, create your test bench using gedit <filename_tb>.v or <filename_tb>.vhdl to open a new blank document (4bitup_down_count_tb.v).
+`timescale 1ns / 1ns
+module counter_test;
+reg clk,rst,m;
+wire [3:0] count;
+initial
+begin
+clk=0;
+rst=0;#5;
+rst=1;
+end
+initial
+begin
+m=1;
+#160 m=0;
+end
+counter counter1 (clk,m,rst, count);
+always #5 clk=~clk;
+ 
+initial $monitor("Time=%t rst=%b clk=%b count=%b" , $time,rst,clk,count);
+initial
+#320 $finish;
+endmodule
 
 ### Test-bench code for 4-Bit Up-Down Counter:
 
 */Test bench Program  for  4-Bit Up-Down Counter
+![Screenshot (26)](https://github.com/user-attachments/assets/2bf2b248-cf20-4434-b44c-84cde026b6d1)
+
 
 ### To Launch Simulation tool
 	linux:/> nclaunch -new&            // “-new” option is used for invoking NCVERILOG for the first time for any design
 
 	linux:/> nclaunch&                 // On subsequent calls to NCVERILOG
+![Screenshot (27)](https://github.com/user-attachments/assets/f81ef72c-423f-469f-be30-f91b2d466725)
+
 
 It will invoke the nclaunch window for functional simulation we can compile,elaborate and simulate it using Multiple step
 
 ## Fig 3: Setting Multi-step simulation
+![Screenshot (28)](https://github.com/user-attachments/assets/633ba563-35ab-4a81-a742-9cf0c987ef97)
+
 
 Select Multiple Step and then select “Create cds.lib File” as shown in below figure
 
 Click the cds.lib file and save the file by clicking on Save option
 
 ## Fig 4: cds.lib file Creation
+![Screenshot (29)](https://github.com/user-attachments/assets/a39c696f-8990-4187-92d8-a486f3398df7)
 
 	Save cds.lib file and select the correct option for cds.lib file format based on the  HDL Language and Libraries used.
 
@@ -100,6 +143,7 @@ Click the cds.lib file and save the file by clicking on Save option
 	Worklib is the directory where all the compiled codes are stored while Snapshot will have output of elaboration which in turn goes for simulation
 
 ## Fig 6: Nclaunch Window
+![Screenshot (30)](https://github.com/user-attachments/assets/9a175275-5612-438e-996c-a801373034c6)
 
 To perform the function simulation, the following three steps are involved Compilation, Elaboration and Simulation.
 
@@ -124,6 +168,7 @@ i.e Cadence IES command for compile: ncverilog +access+rwc -compile fa.v
 Worklib is the directory where all the compiled codes are stored while Snapshot will have output of elaboration which in turn goes for simulation 
 
 ## Fig 7: Compiled database in worklib
+![Screenshot (30)](https://github.com/user-attachments/assets/cd25d93a-65dd-4ad3-b7ce-e79a25d96419)
 
 	After compilation it will come under worklib you can see in right side window
 
@@ -153,6 +198,7 @@ It contains statements that map logical library names to their physical director
 	After elaboration the file will come under snapshot. Select the test bench and simulate it. 
 
 ## Fig 8: Elaboration Launch Option
+![Screenshot (31)](https://github.com/user-attachments/assets/cf0861c8-2ba2-4430-9c25-251b32521fd4)
 
 ### Step 3: Simulation: – Simulate with the given test vectors over a period of time to observe the output behaviour. 
 
@@ -165,8 +211,10 @@ It contains statements that map logical library names to their physical director
 	Steps for simulation – Run the simulation command with simulator options
 
 ## Fig 9: Design Browser window for simulation
+![Screenshot (32)](https://github.com/user-attachments/assets/d120a98e-d217-4f03-b9d0-0d39546e5474)
 
 ## Fig 10: Simulation Waveform Window
+![Screenshot (33)](https://github.com/user-attachments/assets/d7c11589-3a60-482d-a58e-42153482f76b)
 
 ## Fig 11: Simulation Waveform Window
 
